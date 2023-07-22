@@ -521,7 +521,7 @@ if DOCKERIZED:
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
     try:
-        _, _, ips = socket.gethostbyname_ex(os.environ.get("FRONTEND_HOSTNAME", "frontend"))
+        _, _, ips = socket.gethostbyname_ex("frontend")
         INTERNAL_IPS.extend(ips)
     except socket.gaierror:
         logger.error(
