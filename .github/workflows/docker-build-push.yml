@@ -17,6 +17,7 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   BACKEND_IMAGE_NAME: lotus-backend
   FRONTEND_IMAGE_NAME: lotus-frontend
+  EVENT_INGESTION_IMAGE_NAME: lotus-event-ingestion
 
 jobs:
 
@@ -51,6 +52,15 @@ jobs:
         context: ./frontend
         push: true
         tags: ${{ env.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ github.sha }}-${{ github.ref_name }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        target: production
+    - name: Build and push event-ingestion Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./go/event-ingestion
+        push: true
+        tags: ${{ env.DOCKER_USERNAME }}/${{ env.EVENT_INGESTION_IMAGE_NAME }}:${{ github.sha }}-${{ github.ref_name }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         target: production
