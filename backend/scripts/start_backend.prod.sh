@@ -1,4 +1,9 @@
-while ! nc -q 1 db 5432 </dev/null; do sleep 5; done
+#!/bin/bash
+
+POSTGRES_HOST=${POSTGRES_HOST:-db}
+POSTGRES_PORT=${POSTGRES_PORT:-5432}
+
+while ! nc -q 1 $POSTGRES_HOST $POSTGRES_PORT </dev/null; do sleep 5; done
 
 python3 manage.py migrate && \
 python3 manage.py initadmin && \
