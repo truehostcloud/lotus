@@ -282,8 +282,8 @@ else:
             "NAME": POSTGRES_DB,
             "USER": POSTGRES_USER,
             "PASSWORD": POSTGRES_PASSWORD,
-            "HOST": "db" if DOCKERIZED else "localhost",
-            "PORT": 5432,
+            "HOST": os.environ.get("POSTGRES_HOST", "db" if DOCKERIZED else "localhost"),
+            "PORT": os.environ.get("POSTGRES_PORT", 5432),
         }
     }
 
